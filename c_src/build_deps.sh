@@ -29,10 +29,6 @@ MAKE=${MAKE:-make}
 # Changed "make" to $MAKE
 
 case "$1" in
-    place-deps)
-        #mkdir -p ../priv
-        #cp hashids.c/src/.libs/libhashids.so* ../priv
-        ;;
     rm-deps)
         rm -rf hashids.c
         ;;
@@ -62,30 +58,37 @@ case "$1" in
         ;;
 
     *)
-        export MACOSX_DEPLOYMENT_TARGET=10.8
-
-        export CFLAGS="$CFLAGS -fPIC -I $BASEDIR/include"
-        export CXXFLAGS="$CXXFLAGS -fPIC -I $BASEDIR/include"
-        export LDFLAGS="$LDFLAGS -L$BASEDIR/lib"
-        export LD_LIBRARY_PATH="$BASEDIR/lib:$LD_LIBRARY_PATH"
-        export HASHIDS_VSN="$HASHIDS_VSN"
-
-        if [ ! -d hashids.c ]; then
-            git clone https://github.com/tzvetkoff/hashids.c.git
-            (cd hashids.c && git checkout -b build $HASHIDS_VSN)
-        fi
-
-        if [[ "$OSTYPE" == "darwin"* ]]; then
-            path_to_libtool=$(which libtool)
-            if [ -z ${path_to_libtool} ] ; then
-              echo "libtool is MISSING please install it with: brew install libtool"
-            fi
-        fi
-
-        if [ ! -f hashids.c/config.h ]; then
-          (cd hashids.c && ./bootstrap && ./configure --enable-static=yes && $MAKE -j9 all)
+        mkdir -p ../priv
+        priv_files=$(shopt -s nullglob dotglob; echo ../priv/*)
+        if (( ${#priv_files} )); then
+          :
         else
-          (cd hashids.c && $MAKE -s -j9 all)
+          export MACOSX_DEPLOYMENT_TARGET=10.8
+
+          export CFLAGS="$CFLAGS -fPIC -I $BASEDIR/include"
+          export CXXFLAGS="$CXXFLAGS -fPIC -I $BASEDIR/include"
+          export LDFLAGS="$LDFLAGS -L$BASEDIR/lib"
+          export LD_LIBRARY_PATH="$BASEDIR/lib:$LD_LIBRARY_PATH"
+          export HASHIDS_VSN="$HASHIDS_VSN"
+
+          if [ ! -d hashids.c ]; then
+              git clone https://github.com/tzvetkoff/hashids.c.git
+              (cd hashids.c && git checkout -b build $HASHIDS_VSN)
+          fi
+
+          if [[ "$OSTYPE" == "darwin"* ]]; then
+              path_to_libtool=$(which libtool)
+              path_to_autoreconf=$(which autoreconf)
+              if [ -z ${path_to_libtool} ] || [ -z ${path_to_autoreconf} ] ; then
+                echo "Build tools are MISSING please install them with: brew install autoconf automake libtool"
+              fi
+          fi
+
+          if [ ! -f hashids.c/config.h ]; then
+            (cd hashids.c && ./bootstrap && ./configure --enable-static=yes && $MAKE -j9 all)
+          else
+            (cd hashids.c && $MAKE -j9 all)
+          fi
         fi
         ;;
 esac
