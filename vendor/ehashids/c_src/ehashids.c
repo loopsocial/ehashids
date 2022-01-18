@@ -112,7 +112,7 @@ static ERL_NIF_TERM hashids_init_nif(ErlNifEnv* env, int argc, const ERL_NIF_TER
     ERL_NIF_TERM resource;
     unsigned int min_hash_length;
 
-    if(argc == 1){
+    if(argc > 0){
         res = enif_inspect_binary(env, argv[0], &salt_bin);
         if(res == 0){
             return make_error_tuple_from_string(env, "salt");

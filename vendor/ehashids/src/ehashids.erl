@@ -155,11 +155,14 @@ decode(_Ref, _Id) ->
 -spec decode_safe(Ref :: hashids_ref(), Id :: binary()) ->
     {ok, Numbers :: list(non_neg_integer())} | {error, unsafe} | {error, atom()}.
 decode_safe(Ref, Id0) ->
-    {ok, Numbers} = decode(Ref, Id0),
-    {ok, Id1} = encode(Ref, Numbers),
-    case Id0 =:= Id1 of
-        true -> {ok, Numbers};
-        false -> {error, unsafe}
+    case decode(Ref, Id0) of
+        {ok, Numbers} ->
+            {ok, Id1} = encode(Ref, Numbers),
+            case Id0 =:= Id1 of
+                true -> {ok, Numbers};
+                false -> {error, unsafe}
+            end;
+        Error -> Error
     end.
 
 %% @doc Encode the `hashids_ref()' data in to a tuple to be cached.
