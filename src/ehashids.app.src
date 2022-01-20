@@ -1,6 +1,6 @@
 {application, ehashids,
- [{description, "An OTP library"},
-  {vsn, "0.1.0"},
+ [{description, "An Erlang NIF wrapper for hashids.c"},
+  {vsn, "1.0.0"},
   {registered, []},
   {applications,
    [kernel,
@@ -12,3 +12,4 @@
   {licenses, ["Apache 2.0"]},
   {links, []}
  ]}.
+
