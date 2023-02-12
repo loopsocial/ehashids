@@ -1,0 +1,15 @@
+Datetime = calendar:system_time_to_local_time(
+    calendar:rfc3339_to_system_time("1980-01-01T00:00:00+00:00"),
+    second
+),
+PrivPath = filename:join([filename:dirname(SCRIPT), "priv"]),
+Filename = filename:join([PrivPath, "ehashids.so"]),
+file:make_dir(PrivPath),
+case file:open(Filename, [read]) of
+    {ok, FD} ->
+        file:close(FD);
+    {error, enoent} ->
+        file:write_file(Filename, ""),
+        file:change_time(Filename, Datetime, Datetime)
+end,
+CONFIG.

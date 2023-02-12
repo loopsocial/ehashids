@@ -29,6 +29,13 @@ MAKE=${MAKE:-make}
 # Changed "make" to $MAKE
 
 case "$1" in
+    touch)
+        mkdir -p "../priv/"
+        if [ ! -f "../priv/ehashids.so" ]; then
+            touch -a -m -t 198001010000.00 "../priv/ehashids.so"
+        fi
+        ;;
+
     rm-deps)
         rm -rf hashids.c
         ;;
@@ -59,6 +66,13 @@ case "$1" in
 
     *)
         mkdir -p ../priv
+        # Fix ehashids missing artifact priv/ehashids.so
+        # rebar3 needs a file there to function correctly.
+        if [ -f ../priv/ehashids.so ]; then
+          if [ ! -s ../priv/ehashids.so ]; then
+            rm ../priv/ehashids.so
+          fi
+        fi
         priv_files=$(shopt -s nullglob dotglob; echo ../priv/*)
         if (( ${#priv_files} )); then
           :
