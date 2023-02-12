@@ -30,9 +30,9 @@ MAKE=${MAKE:-make}
 
 case "$1" in
     place-deps)
-	#mkdir -p ../priv
-	#cp hashids.c/src/.libs/libhashids.so* ../priv
-	;;
+        #mkdir -p ../priv
+        #cp hashids.c/src/.libs/libhashids.so* ../priv
+        ;;
     rm-deps)
         rm -rf hashids.c
         ;;
@@ -85,8 +85,8 @@ case "$1" in
         if [ ! -f hashids.c/config.h ]; then
           (cd hashids.c && ./bootstrap && ./configure --enable-static=yes && $MAKE -j9 all)
         else
-	  (cd hashids.c && $MAKE -j9 all)
-	fi
+          (cd hashids.c && $MAKE -s -j9 all)
+        fi
         ;;
 esac
 

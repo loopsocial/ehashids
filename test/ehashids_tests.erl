@@ -39,3 +39,15 @@ estimate_encoded_size_test() ->
   R = ehashids:new(<<"">>, 22),
   Padding = 2,
   ?assertEqual({ok, 22 + Padding}, ehashids:estimate_encoded_size(R, [1888])).
+
+salt_for_arity2_test() ->
+  R = ehashids:new(<<"abc">>, 6),
+  %% Value taken from python3
+  %% Python 3.8.5 (default, May 27 2021, 13:30:53)
+  %% [GCC 9.3.0] on linux
+  %% Type "help", "copyright", "credits" or "license" for more information.
+  %% >>> import hashids
+  %% >>> h = hashids.Hashids(salt='abc', min_length=6)
+  %% >>> h.encode(123)
+  %% 'KpL6q4'
+  ?assertEqual({ok, <<"KpL6q4">>}, ehashids:encode_one(R, 123)).
