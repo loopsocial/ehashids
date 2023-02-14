@@ -34,7 +34,7 @@ Please provide clear instructions on how to test the changes, including any setu
 
 ## Merge process
 
-This change will be reviewed and merged by [eric0fw](https://github.com/eric0fw). The expected timeline for review and merge is 10 business days. Changes will be merged once all criteria in the checklist have been met and all feedback has been addressed.
+This change will be reviewed and merged by [a loopsocial developer](https://github.com/eric0fw). The expected timeline for review and merge is 10 business days. Changes will be merged once all criteria in the checklist have been met and all feedback has been addressed.
 
 ## Feedback
 
