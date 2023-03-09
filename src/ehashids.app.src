@@ -1,6 +1,6 @@
 {application, ehashids,
  [{description, "An NIF to hashids.c"},
-  {vsn, "0.1.1"},
+  {vsn, "0.1.2"},
   {registered, []},
   {applications,
    [kernel,
