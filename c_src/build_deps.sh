@@ -99,9 +99,9 @@ case "$1" in
           fi
 
           if [ ! -f hashids.c/config.h ]; then
-            (cd hashids.c && ./bootstrap && ./configure --enable-static=yes && $MAKE -j9 all)
+            (cd hashids.c && make clean && ./bootstrap && ./configure --enable-static=yes && $MAKE -j9 all)
           else
-            (cd hashids.c && $MAKE -j9 all)
+            (cd hashids.c && make clean && ./bootstrap && ./configure --enable-static=yes && $MAKE -j9 all)
           fi
         fi
         ;;
