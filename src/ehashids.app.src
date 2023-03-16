@@ -1,6 +1,6 @@
 {application, ehashids,
  [{description, "An NIF to hashids.c"},
-  {vsn, "0.1.3"},
+  {vsn, "0.1.4"},
   {registered, []},
   {applications,
    [kernel,
@@ -11,6 +11,7 @@
 
   {maintainers, ["Eric des Courtis"]},
   {licenses, ["Apache 2.0"]},
-  {links, [{"Github", "https://github.com/loopsocial/ehashids/"}]}
+  {links, [{"Github", "https://github.com/loopsocial/ehashids/"}]},
+  {exclude_paths, ["c_src/hashids.c"]}
  ]}.
 

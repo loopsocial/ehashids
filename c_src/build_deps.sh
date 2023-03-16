@@ -43,7 +43,8 @@ case "$1" in
     clean)
         rm -rf hashids.c
         if [ -d hashids.c ]; then
-            (cd hashids.c && $MAKE clean)
+
+            (cd hashids.c && $MAKE clean || echo skip)
         fi
         ;;
 
@@ -99,9 +100,9 @@ case "$1" in
           fi
 
           if [ ! -f hashids.c/config.h ]; then
-            (cd hashids.c && make clean && ./bootstrap && ./configure --enable-static=yes && $MAKE -j9 all)
+            (cd hashids.c && ($MAKE clean || echo skip) && ./bootstrap && ./configure --enable-static=yes && $MAKE -j9 all)
           else
-            (cd hashids.c && make clean && ./bootstrap && ./configure --enable-static=yes && $MAKE -j9 all)
+            (cd hashids.c && ($MAKE clean || echo skip) && ./bootstrap && ./configure --enable-static=yes && $MAKE -j9 all)
           fi
         fi
         ;;
